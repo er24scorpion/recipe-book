@@ -1,17 +1,11 @@
 import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
-export interface AppState {
-    shoppingList: State
-}
-
 export interface State {
-    ingredients: Ingredient[],
-    editedIngredient: Ingredient,
-    editedIngredientIndex: number
+    ingredients: Ingredient[];
+    editedIngredient: Ingredient;
+    editedIngredientIndex: number;
 }
-
-
 
 const initialState: State = {
     ingredients: [
@@ -26,20 +20,21 @@ export function shoppingListReducer(state: State = initialState, action: Shoppin
     switch (action.type) {
         case ShoppingListActions.ADD_INGREDIENT:
             // copy old state, and ovverwrite what you want to change
+            const payload = (action as ShoppingListActions.AddIngredient).payload;
             return {
                 ...state,
-                ingredients: [...state.ingredients, action.payload]
+                ingredients: [...state.ingredients, payload]
             }
         case ShoppingListActions.ADD_INGREDIENTS:
             return {
                 ...state,
-                ingredients: [...state.ingredients, ...(action.payload as Ingredient[])]
+                ingredients: [...state.ingredients, ...(action as ShoppingListActions.AddIngredients).payload]
             }
         case ShoppingListActions.UPDATE_INGREDIENT:
             const ingredient = state.ingredients[state.editedIngredientIndex];
             const updateIngredient = {
                 ...ingredient,
-                ...action.payload as Ingredient
+                ...(action as ShoppingListActions.UpdateIngredient).payload
             };
 
             const updateIngredients = [...state.ingredients];
@@ -63,8 +58,8 @@ export function shoppingListReducer(state: State = initialState, action: Shoppin
         case ShoppingListActions.START_EDIT:
             return {
                 ...state,
-                editedIngredientIndex: +action.payload,
-                editedIngredient: { ...state.ingredients[+action.payload] }
+                editedIngredientIndex: (action as ShoppingListActions.StartEdit).payload,
+                editedIngredient: { ...state.ingredients[(action as ShoppingListActions.StartEdit).payload] }
             };
         case ShoppingListActions.STOP_EDIT:
             return {

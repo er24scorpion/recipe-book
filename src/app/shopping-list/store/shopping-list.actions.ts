@@ -28,7 +28,6 @@ export class UpdateIngredient implements Action {
 
 export class DeleteIngredient implements Action {
     readonly type: string = DELETE_INGREDIENT;
-    public payload: number;
 }
 
 export class StartEdit implements Action {
@@ -40,7 +39,6 @@ export class StartEdit implements Action {
 
 export class StopEdit implements Action {
     readonly type: string = STOP_EDIT;
-    public payload: number;
 }
 
 export type ShoppingListActions =
