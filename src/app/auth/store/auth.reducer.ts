@@ -1,26 +1,36 @@
-import * as AuthActions from './auth.actions';
+import * as AuthActions from "./auth.actions";
 import { User } from "../user.model";
 
 export interface State {
-    user: User;
+  user: User;
 }
 
 const initialState: State = {
-    user: null,
+  user: null,
 };
 
-export function authReducer(state: State = initialState, action: AuthActions.AuthActions) {
-  switch (action.type){
+export function authReducer(
+  state: State = initialState,
+  action: AuthActions.AuthActions
+) {
+  switch (action.type) {
     case AuthActions.LOGIN:
       const payload = (action as AuthActions.Login).payload;
-      const user = new User(payload.email, payload.userId, payload.token, payload.exprirationDate);
+      const user = new User(
+        payload.email,
+        payload.userId,
+        payload.token,
+        payload.exprirationDate
+      );
 
       return {
         ...state,
-        user: user };
+        user: user,
+      };
 
-    case AuthActions.LOGOUT: return { ...state, user: null };
-    default: return state;
+    case AuthActions.LOGOUT:
+      return { ...state, user: null };
+    default:
+      return state;
   }
-
 }
